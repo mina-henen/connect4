@@ -17,16 +17,16 @@ public class connect4 {
         }
     }
 
-    public static boolean putButton(char[][] grid, char p, int n){
+    public static char[][] putButton(char[][] grid, char p, int n){
         if (n>6 || n<0)
-            return false;
+            return grid;
         for (int i=5;i>=0;--i){
             if (grid[i][n]=='0'){
                 grid[i][n]=p;
-                return true;
+                return grid;
             }
         }
-        return false;
+        return grid;
     }
 
     public static int countScore(char[][] grid, char p){
@@ -146,5 +146,7 @@ public class connect4 {
 
         System.out.println(countScore(grid,'1'));
         printGame(g);
+
+        State state = new State(putButton(copy(grid),'1',2));
     }
 }
