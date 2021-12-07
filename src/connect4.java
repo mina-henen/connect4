@@ -1,22 +1,23 @@
+import java.util.Arrays;
+
 public class connect4 {
 
-    public static char[][] grid = new char[6][7];
 
-    public static void printGame(){
+    public static void printGame(char[][] grid){
         for (int i=0;i<6;++i){
             for (int j=0;j<7;++j)
                 System.out.print(grid[i][j]+" ");
             System.out.println();
         }
     }
-    public static void initializeGrid(){
+    public static void initializeGrid(char[][] grid){
         for (int i=0;i<6;++i) {
             for (int j =0; j<7;++j)
                 grid[i][j] = '0';
         }
     }
 
-    public static boolean putButton(char p,int n){
+    public static boolean putButton(char[][] grid, char p, int n){
         if (n>6 || n<0)
             return false;
         for (int i=5;i>=0;--i){
@@ -123,45 +124,27 @@ public class connect4 {
         return score;
     }
 
-    public static void main(String[] args){
-        //printGame();
-        initializeGrid();
-        putButton('1',3);
-        putButton('2',3);
-        putButton('1',4);
-        putButton('2',3);
-        putButton('1',3);
-        putButton('1',2);
-        putButton('1',5);
-        putButton('1',1);
-        putButton('1',1);
-        putButton('1',1);
-        putButton('1',1);
-        putButton('1',1);
-        putButton('1',1);
-        putButton('1',0);
-        putButton('1',0);
-        putButton('1',0);
-        putButton('1',0);
-        putButton('1',0);
-        putButton('1',2);
-        putButton('1',2);
-        putButton('1',2);
-        putButton('1',2);
-        putButton('1',2);
-        putButton('1',2);
-        putButton('1',4);
-        putButton('1',5);
-        putButton('1',5);
-        putButton('1',6);
-        putButton('1',6);
-        putButton('1',6);
-        putButton('1',6);
-        putButton('1',6);
-        putButton('1',6);
-        putButton('1',6);
+    public static char[][] copy(char[][] grid){
+        char[][] g = new char[grid.length][grid[0].length];
+        for (int i=0;i<6;++i) {
+            for (int j =0; j<7;++j)
+                g[i][j] = grid[i][j];
+        }
+        return g;
+    }
 
-        printGame();
+    public static void main(String[] args){
+        char[][] grid = new char[6][7];
+
+        initializeGrid(grid);
+        char[][] g = copy(grid);
+
+        putButton(grid,'1',5);
+        putButton(g,'2',5);
+
+        printGame(grid);
+
         System.out.println(countScore(grid,'1'));
+        printGame(g);
     }
 }
