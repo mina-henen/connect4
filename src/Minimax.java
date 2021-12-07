@@ -1,6 +1,5 @@
 public class Minimax {
     public static void main(String[] args) {
-
     }
 
 

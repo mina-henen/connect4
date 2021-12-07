@@ -133,6 +133,10 @@ public class connect4 {
         return g;
     }
 
+    public static int heuristic(char[][] grid){
+        return countScore(grid,'2')-countScore(grid,'1');
+    }
+
     public static void main(String[] args){
         char[][] grid = new char[6][7];
 
@@ -148,5 +152,6 @@ public class connect4 {
         printGame(g);
 
         State state = new State(putButton(copy(grid),'1',2));
+        state.addChild(new State(putButton(copy(grid),'1',2)));
     }
 }
