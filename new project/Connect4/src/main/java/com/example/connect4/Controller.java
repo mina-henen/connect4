@@ -102,7 +102,7 @@ public class Controller {
     }
 
     private void placeDisc(Disc disc, int column) {
-        System.out.println(column);
+//        System.out.println(column);
         int row = ROWS - 1;
         do {
             if (!getDisc(column, row).isPresent())
@@ -130,20 +130,26 @@ public class Controller {
                 gameOver();
             }
             redMove = !redMove;
-            for (int i=0;i<6;++i){
-                    for (int j=0;j<7;++j)
-                        System.out.print(logicGrid[i][j]+" ");
-                    System.out.println();
-                }
-                System.out.println();
+//            for (int i=0;i<6;++i){
+//                    for (int j=0;j<7;++j)
+//                        System.out.print(logicGrid[i][j]+" ");
+//                    System.out.println();
+//                }
+//                System.out.println();
             if (!redMove) {
                 State state=new State(logicGrid);
                 Grid g = new Grid();
-                MiniMax m =new MiniMax();
-                State temp=m.maximize(state,k,'2');
+                State temp;
+                if (withPruning) {
+                    MiniMax m =new MiniMax();
+                    temp=m.maximize(state,k,'2');
+                } else {
+                    MiniMaxWithPruning m =new MiniMaxWithPruning();
+                    temp=m.maximize_with_pruning(state,k,'2', Integer.MIN_VALUE, Integer.MAX_VALUE);
+
+                }
                 int col=temp.col;
                 g.play(logicGrid,col,'2');
-                System.out.println("here");
                 this.placeDisc(new Disc(false), col);
                 System.out.println();
                 for (int i=0;i<6;++i){
