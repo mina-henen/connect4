@@ -30,9 +30,6 @@ public class Main {
                 col--;
                 g.play(grid,col,Player);
                 p1Score=g.countScore(grid,Player);
-                print_score();
-                turn++;
-                turn=turn%2;
             }
             else{
                 System.out.println("Player 2 Turn : ");
@@ -41,10 +38,10 @@ public class Main {
                 int col=temp.col;
                 g.play(grid,col,AI);
                 p2Score=g.countScore(grid,AI);
-                print_score();
-                turn++;
-                turn=turn%2;
             }
+            print_score();
+            turn++;
+            turn=turn%2;
         }
         if(p1Score>p2Score)
             System.out.println("Player 1 Wins");
