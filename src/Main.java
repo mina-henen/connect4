@@ -34,7 +34,7 @@ public class Main {
             else{
                 System.out.println("Player 2 Turn : ");
                 State state=new State(grid);
-                State temp=m.minimize(state,K,AI);
+                State temp=m.maximize(state,K,AI);
                 int col=temp.col;
                 g.play(grid,col,AI);
                 p2Score=g.countScore(grid,AI);

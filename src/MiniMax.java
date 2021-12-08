@@ -20,7 +20,7 @@ public class MiniMax {
        g.put_children(state,player);
        //loop over the children of the state to update the value of minimum state
         for(State child : state.children){
-            state=maximize(child,K-1,'1');
+            state=maximize(child,K-1,'2');
 
             if(state.getUtility()<minimum.getUtility()) {
                 minimum.setUtility(state.getUtility());
@@ -46,7 +46,7 @@ public class MiniMax {
        g.put_children(state,player);
         //loop over the children of the state to update the value of maximum state
         for(State child : state.children){
-            state=minimize(child,K-1,'2');
+            state=minimize(child,K-1,'1');
 
             if(state.getUtility()>maximum.getUtility()) {
                 maximum.setUtility(state.getUtility());
