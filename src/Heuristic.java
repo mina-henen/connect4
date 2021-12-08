@@ -3,7 +3,7 @@ import java.util.HashMap;
 public class Heuristic {
 
 
-    public int countScore(char[][] grid, char p){
+    public int calcHeuristic(char[][] grid, char p){
         int fours=0,optFours,threes=0,twos=0,temp=0,temp2=0,num=0,heu;
         HashMap<Integer,Integer> map = new HashMap<>();
         map.put(1,0);
@@ -146,6 +146,6 @@ public class Heuristic {
     }
     //heuristic function to calculate score
     public  int heuristic(char[][] grid){
-        return countScore(grid,'2')-countScore(grid,'1');
+        return calcHeuristic(grid,'2')- calcHeuristic(grid,'1');
     }
 }
