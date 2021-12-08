@@ -1,3 +1,5 @@
+package com.example.gui;
+
 import java.util.ArrayList;
 
 public class Grid {
@@ -8,7 +10,7 @@ public class Grid {
     public void play(char[][] grid,int col,char player){
         int row=get_next_open_row(grid,col);
         put_piece(grid,row,col,player);
-        printGame(grid);
+//        printGame(grid);
     }
     //function to print the game
     public void printGame(char[][] grid){
@@ -32,7 +34,7 @@ public class Grid {
     }
 
     //function to put children of a specific state
-    public void put_children(State state,char player){
+    public void put_children(State state, char player){
         //get valid locations of putting a piece
         ArrayList<Integer> valid_locations=get_valid_locations(state.grid);
         //loop over the valid pieces

@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,13 +30,20 @@ public class ConnectFour extends Application {
 
     private boolean redMove = true;
     private Disc[][] grid = new Disc[COLUMNS][ROWS];
+    private char[][] logicGrid = new char[ROWS][COLUMNS] ;
 
     private Pane discRoot = new Pane();
 
     private Parent createContent() {
         Pane root = new Pane();
         root.getChildren().add(discRoot);
-
+        for (char[] row : logicGrid)
+            Arrays.fill(row, '0');
+        for (int i=0;i<ROWS;++i){
+            for (int j=0;j<COLUMNS;++j)
+                System.out.print(logicGrid[i][j]+" ");
+            System.out.println();
+        }
         Shape gridShape = makeGrid();
         root.getChildren().add(gridShape);
         root.getChildren().addAll(makeColumns());
@@ -93,11 +101,11 @@ public class ConnectFour extends Application {
     }
 
     private void placeDisc(Disc disc, int column) {
+        System.out.println(column);
         int row = ROWS - 1;
         do {
             if (!getDisc(column, row).isPresent())
                 break;
-
             row--;
         } while (row >= 0);
 
@@ -105,6 +113,10 @@ public class ConnectFour extends Application {
             return;
 
         grid[column][row] = disc;
+        if (disc.red) {
+            logicGrid[row][column] = '1';
+        }
+
         discRoot.getChildren().add(disc);
         disc.setTranslateX(column * (TILE_SIZE + 5) + TILE_SIZE / 4);
 
@@ -117,6 +129,27 @@ public class ConnectFour extends Application {
                 gameOver();
             }
             redMove = !redMove;
+            if (!redMove) {
+//                for (int i=0;i<6;++i){
+//                    for (int j=0;j<7;++j)
+//                        System.out.print(logicGrid[i][j]+" ");
+//                    System.out.println();
+//                }
+//                System.out.println();
+                State state=new State(logicGrid);
+                Grid g = new Grid();
+                MiniMax m =new MiniMax();
+                State temp=m.maximize(state,5,'2');
+                int col=temp.col;
+                g.play(logicGrid,col,'2');
+                placeDisc(new Disc(false), col);
+                System.out.println();
+//                for (int i=0;i<6;++i){
+//                    for (int j=0;j<7;++j)
+//                        System.out.print(logicGrid[i][j]+" ");
+//                    System.out.println();
+//                }
+            }
         });
         animation.play();
     }
