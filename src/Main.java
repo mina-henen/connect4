@@ -6,7 +6,7 @@ public class Main {
     static int p2Score=0;
     private static void print_score(){
         System.out.println("Player 1 Score: "+p1Score);
-        System.out.println("Player 2 Score: "+p2Score);
+        System.out.println("AI Score: "+p2Score);
     }
     public static void main(String[] args) {
         char[][] grid=new char[6][7];
@@ -32,7 +32,7 @@ public class Main {
                 p1Score=g.countScore(grid,Player);
             }
             else{
-                System.out.println("Player 2 Turn : ");
+                System.out.println("AI Turn : ");
                 State state=new State(grid);
                 State temp=m.maximize_with_pruning(state,K,AI , Double.MIN_VALUE , Double.MAX_VALUE);
                 int col=temp.col;
@@ -46,7 +46,7 @@ public class Main {
         if(p1Score>p2Score)
             System.out.println("Player 1 Wins");
         else
-            System.out.println("Player 2 Wins");
+            System.out.println("AI Wins");
         System.out.println("GAAAAMEEE OVVEEEEEER");
     }
 }
