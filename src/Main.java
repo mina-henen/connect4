@@ -13,7 +13,7 @@ public class Main {
         char Player='1';
         char AI='2';
 
-        MiniMax m =new MiniMax();
+        MiniMaxWithPruning m =new MiniMaxWithPruning();
         Grid g=new Grid();
         g.initializeGrid(grid);
 
@@ -34,7 +34,7 @@ public class Main {
             else{
                 System.out.println("Player 2 Turn : ");
                 State state=new State(grid);
-                State temp=m.minimize(state,K,AI);
+                State temp=m.maximize_with_pruning(state,K,AI , Double.MIN_VALUE , Double.MAX_VALUE);
                 int col=temp.col;
                 g.play(grid,col,AI);
                 p2Score=g.countScore(grid,AI);
