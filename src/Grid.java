@@ -36,10 +36,11 @@ public class Grid {
         //get valid locations of putting a piece
         ArrayList<Integer> valid_locations=get_valid_locations(state.grid);
         //loop over the valid pieces
-        State temp=new State(copy(state.grid));
+
         for(int i=0;i<valid_locations.size();i++){
             //put piece in a temp state and add it to the children array
             //State temp=new State(copy(state.grid));
+            State temp=new State(copy(state.grid));
             int col=valid_locations.get(i);
             int row=get_next_open_row(temp.grid,col);
             put_piece(temp.grid,row,col,player);
