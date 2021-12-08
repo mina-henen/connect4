@@ -30,42 +30,46 @@ public class MainMenuController extends Application {
     public void playWithPruning(ActionEvent event) {
         window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         k = Integer.parseInt(kValue.getText());
-        if (k <= 0 || k > 7) {
+        if (k <= 0) {
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setHeaderText("Value of k is not valid");
             errorAlert.setContentText("Please Enter a number from 1 to 7");
             errorAlert.showAndWait();
+        }else {
+            Controller c = new Controller();
+            c.k = k;
+            c.withPruning = true;
+            Scene grid = new Scene(c.createContent());
+            window.setScene(grid);
+            window.show();
         }
-        Controller c = new Controller();
-        c.k = k;
-        c.withPruning = true;
-        Scene grid = new Scene(c.createContent());
-        window.setScene(grid);
-        window.show();
     }
 
     public void playWithoutPruning(ActionEvent event) {
         window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         k = Integer.parseInt(kValue.getText());
-        if (k <= 0 || k > 7) {
+        if (k <= 0 ) {
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setHeaderText("Value of k is not valid");
             errorAlert.setContentText("Please Enter a number from 1 to 7");
             errorAlert.showAndWait();
         }
-        Controller c = new Controller();
-        c.k = k;
-        c.withPruning = false;
-        Scene grid = new Scene(c.createContent());
-        window.setScene(grid);
-        window.show();
+        else {
+            Controller c = new Controller();
+            c.k = k;
+            c.withPruning = false;
+            Scene grid = new Scene(c.createContent());
+            window.setScene(grid);
+            window.show();
+        }
     }
 
 
     @Override
     public void start(Stage stage) throws IOException {
-        Scene scene = new Scene((new FXMLLoader(Controller.class.getResource("view.fxml"))).load(), 700, 700);
+        Parent root=FXMLLoader.load(getClass().getResource("view.fxml"));
+        Scene scene = new Scene(root);
         stage.setTitle("Connect 4");
         stage.setScene(scene);
         stage.show();
