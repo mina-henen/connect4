@@ -34,12 +34,14 @@ public class Grid {
     }
 
     //function to put children of a specific state
-    public void put_children(State state, char player){
+    public void put_children(State state,char player){
         //get valid locations of putting a piece
         ArrayList<Integer> valid_locations=get_valid_locations(state.grid);
         //loop over the valid pieces
+
         for(int i=0;i<valid_locations.size();i++){
             //put piece in a temp state and add it to the children array
+            //State temp=new State(copy(state.grid));
             State temp=new State(copy(state.grid));
             int col=valid_locations.get(i);
             int row=get_next_open_row(temp.grid,col);
@@ -54,6 +56,14 @@ public class Grid {
                 temp.setCol(state.col);
             }
         }
+      /*  for (int i=0 ; i<temp.grid.length ; i++){
+            for (int j=0 ; j< temp.grid[0].length ; j++){
+                System.out.print(temp.grid[i][j]);
+            }
+            System.out.print("\n");
+        }
+        System.out.println("**************");*/
+
     }
     //put piece in the right position by using row and col and player turn
     private void put_piece(char[][] grid,int row,int col,char player){

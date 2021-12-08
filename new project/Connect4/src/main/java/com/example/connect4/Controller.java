@@ -2,12 +2,8 @@ package com.example.connect4;
 
 import Algorithm.*;
 import javafx.animation.TranslateTransition;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Point2D;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.layout.Pane;
@@ -15,14 +11,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class Controller {
     private static final int TILE_SIZE = 80;
@@ -37,15 +32,11 @@ public class Controller {
     private Pane discRoot = new Pane();
 
     Parent createContent() {
+
         Pane root = new Pane();
         root.getChildren().add(discRoot);
         for (char[] row : logicGrid)
             Arrays.fill(row, '0');
-//        for (int i=0;i<ROWS;++i){
-//            for (int j=0;j<COLUMNS;++j)
-//                System.out.print(logicGrid[i][j]+" ");
-//            System.out.println();
-//        }
         Shape gridShape = makeGrid();
         root.getChildren().add(gridShape);
         root.getChildren().addAll(makeColumns());
@@ -102,7 +93,6 @@ public class Controller {
     }
 
     private void placeDisc(Disc disc, int column) {
-//        System.out.println(column);
         int row = ROWS - 1;
         do {
             if (!getDisc(column, row).isPresent())
@@ -126,16 +116,8 @@ public class Controller {
         TranslateTransition animation = new TranslateTransition(Duration.seconds(0.5), disc);
         animation.setToY(row * (TILE_SIZE + 5) + TILE_SIZE / 4);
         animation.setOnFinished(e -> {
-            if (gameEnded(column, currentRow)) {
-                gameOver();
-            }
+            gameOver();
             redMove = !redMove;
-//            for (int i=0;i<6;++i){
-//                    for (int j=0;j<7;++j)
-//                        System.out.print(logicGrid[i][j]+" ");
-//                    System.out.println();
-//                }
-//                System.out.println();
             if (!redMove) {
                 State state=new State(logicGrid);
                 Grid g = new Grid();
@@ -162,52 +144,27 @@ public class Controller {
         animation.play();
     }
 
-    private boolean gameEnded(int column, int row) {
-        List<Point2D> vertical = IntStream.rangeClosed(row - 3, row + 3)
-                .mapToObj(r -> new Point2D(column, r))
-                .collect(Collectors.toList());
 
-        List<Point2D> horizontal = IntStream.rangeClosed(column - 3, column + 3)
-                .mapToObj(c -> new Point2D(c, row))
-                .collect(Collectors.toList());
-
-        Point2D topLeft = new Point2D(column - 3, row - 3);
-        List<Point2D> diagonal1 = IntStream.rangeClosed(0, 6)
-                .mapToObj(i -> topLeft.add(i, i))
-                .collect(Collectors.toList());
-
-        Point2D botLeft = new Point2D(column - 3, row + 3);
-        List<Point2D> diagonal2 = IntStream.rangeClosed(0, 6)
-                .mapToObj(i -> botLeft.add(i, -i))
-                .collect(Collectors.toList());
-
-        return checkRange(vertical) || checkRange(horizontal)
-                || checkRange(diagonal1) || checkRange(diagonal2);
-    }
-
-    private boolean checkRange(List<Point2D> points) {
-        int chain = 0;
-
-        for (Point2D p : points) {
-            int column = (int) p.getX();
-            int row = (int) p.getY();
-
-            Disc disc = getDisc(column, row).orElse(new Disc(!redMove));
-            if (disc.red == redMove) {
-                chain++;
-                if (chain == 4) {
-                    return true;
-                }
-            } else {
-                chain = 0;
-            }
-        }
-
-        return false;
-    }
 
     private void gameOver() {
-        System.out.println("Winner: " + (redMove ? "RED" : "YELLOW"));
+        Grid g = new Grid();
+        if(g.get_valid_locations(logicGrid).size() <= 0) {
+            int p1Score = g.countScore(logicGrid, '1');
+            int p2Score = g.countScore(logicGrid, '2');
+            System.out.println("Game Over");
+            if (p1Score > p2Score) {
+                System.out.println("The winner is Human");
+            } else {
+                System.out.println("The winner is Agent");
+            }
+            System.out.println("Human Score is : " + p1Score);
+            System.out.println("Agent Score is : " + p2Score);
+
+//            Alert errorAlert = new Alert(Alert.AlertType.INFORMATION);
+//            errorAlert.setHeaderText("Game has ended");
+//            errorAlert.setContentText("The winner is AI");
+//            errorAlert.showAndWait();
+        }
     }
 
     private Optional<Disc> getDisc(int column, int row) {
@@ -228,28 +185,4 @@ public class Controller {
             setCenterY(TILE_SIZE / 2);
         }
     }
-
-//    @Override
-//    public void start(Stage stage) throws Exception {
-//        stage.setScene(new Scene(createContent()));
-//        stage.show();
-//    }
-//
-//    public static void main(String[] args) {
-//        launch(args);
-//    }
-//    @Override
-//    public void start(Stage stage) throws IOException {
-//        FXMLLoader fxmlLoader = new FXMLLoader(Controller.class.getResource("view.fxml"));
-//        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-//        stage.setTitle("Hello!");
-//        stage.setScene(scene);
-//        stage.show();
-//    }
-//
-//    public static void main(String[] args) {
-//        launch();
-//    }
-
-
 }
