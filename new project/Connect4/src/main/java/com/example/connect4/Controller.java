@@ -3,15 +3,20 @@ package com.example.connect4;
 import Algorithm.*;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -84,7 +89,31 @@ public class Controller {
             rect.setOnMouseExited(e -> rect.setFill(Color.TRANSPARENT));
 
             final int column = x;
-            rect.setOnMouseClicked(e -> placeDisc(new Disc(redMove), column));
+            rect.setOnMouseClicked(e -> {placeDisc(new Disc(redMove), column);
+                Grid g = new Grid();
+                int p1Score = g.countScore(logicGrid, '1');
+                int p2Score = g.countScore(logicGrid, '2');
+            if (gameOver()) {
+
+                System.out.println("Game is Over");
+                String winner;
+                if (p1Score > p2Score) {
+                    winner = "The winner is Human";
+                } else {
+                    winner = "The winner is Agent";
+                }
+                System.out.println("Human Score is : " + p1Score);
+                System.out.println("Agent Score is : " + p2Score);
+                Alert errorAlert = new Alert(Alert.AlertType.INFORMATION);
+                errorAlert.setHeaderText("Game has ended");
+                errorAlert.setContentText(winner + "\nHuman Score is " + p1Score + " & Agent Score is " + p2Score);
+                errorAlert.showAndWait();
+            }else {
+                System.out.println("Human Score is : " + p1Score);
+                System.out.println("Agent Score is : " + p2Score);
+                System.out.println("======================================================");
+            }
+            });
 
             list.add(rect);
         }
@@ -116,7 +145,6 @@ public class Controller {
         TranslateTransition animation = new TranslateTransition(Duration.seconds(0.5), disc);
         animation.setToY(row * (TILE_SIZE + 5) + TILE_SIZE / 4);
         animation.setOnFinished(e -> {
-            gameOver();
             redMove = !redMove;
             if (!redMove) {
                 State state=new State(logicGrid);
@@ -133,12 +161,12 @@ public class Controller {
                 int col=temp.col;
                 g.play(logicGrid,col,'2');
                 this.placeDisc(new Disc(false), col);
-                System.out.println();
-                for (int i=0;i<6;++i){
-                    for (int j=0;j<7;++j)
-                        System.out.print(logicGrid[i][j]+" ");
-                    System.out.println();
-                }
+//                System.out.println();
+//                for (int i=0;i<6;++i){
+//                    for (int j=0;j<7;++j)
+//                        System.out.print(logicGrid[i][j]+" ");
+//                    System.out.println();
+//                }
             }
         });
         animation.play();
@@ -146,25 +174,12 @@ public class Controller {
 
 
 
-    private void gameOver() {
+    private boolean gameOver() {
         Grid g = new Grid();
         if(g.get_valid_locations(logicGrid).size() <= 0) {
-            int p1Score = g.countScore(logicGrid, '1');
-            int p2Score = g.countScore(logicGrid, '2');
-            System.out.println("Game Over");
-            if (p1Score > p2Score) {
-                System.out.println("The winner is Human");
-            } else {
-                System.out.println("The winner is Agent");
-            }
-            System.out.println("Human Score is : " + p1Score);
-            System.out.println("Agent Score is : " + p2Score);
-
-//            Alert errorAlert = new Alert(Alert.AlertType.INFORMATION);
-//            errorAlert.setHeaderText("Game has ended");
-//            errorAlert.setContentText("The winner is AI");
-//            errorAlert.showAndWait();
+            return true;
         }
+        return false;
     }
 
     private Optional<Disc> getDisc(int column, int row) {
