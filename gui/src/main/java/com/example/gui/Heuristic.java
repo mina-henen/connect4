@@ -1,16 +1,34 @@
 package com.example.gui;
 
+import java.util.HashMap;
+
 public class Heuristic {
 
 
-    public int countScore(char[][] grid, char p){
-        int fours=0;
-        int threes=0;
-        int twos=0;
-        int temp=0;
-        int temp2=0;
-        int num=0;
-        int heu;
+    public int calcHeuristic(char[][] grid, char p){
+        int fours=0,optFours,threes=0,twos=0,temp=0,temp2=0,num=0,heu;
+        HashMap<Integer,Integer> map = new HashMap<>();
+        map.put(1,0);
+        map.put(2,0);
+        map.put(3,0);
+        map.put(4,1);
+        map.put(5,2);
+        map.put(6,3);
+        map.put(7,4);
+        map.put(8,4);
+        map.put(9,4);
+        map.put(10,4);
+        map.put(11,5);
+        map.put(12,6);
+        map.put(13,7);
+        map.put(14,8);
+        map.put(15,8);
+        map.put(16,8);
+        map.put(17,8);
+        map.put(18,9);
+        map.put(19,10);
+        map.put(20,11);
+        map.put(21,12);
 
         // count horizontally
         for (int i=0;i<grid.length;++i){
@@ -124,11 +142,12 @@ public class Heuristic {
             fours+=Math.max(0,temp-3);
             temp=0;
         }
-        heu = (fours*10)+(threes*5)+(twos*2);
+        optFours = map.get(num);
+        heu = (fours*10)+(threes*5)+(twos*2)-((optFours-fours)*3);
         return heu;
     }
     //heuristic function to calculate score
     public  int heuristic(char[][] grid){
-        return countScore(grid,'2')-countScore(grid,'1');
+        return calcHeuristic(grid,'2')- calcHeuristic(grid,'1');
     }
 }

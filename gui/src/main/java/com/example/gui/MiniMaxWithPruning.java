@@ -1,10 +1,10 @@
 package com.example.gui;
 
-public class MiniMax {
+public class MiniMaxWithPruning {
     Grid g=new Grid();
     Heuristic h=new Heuristic();
-    //min function takes a state ,K and a player turn
-    public State minimize(State state,int K,char player){
+
+    public State minimize_with_pruning(State state, int K, char player , double a , double b){
         //to check if K is 0 or if we reached a terminal node
         if(K==0 || g.is_terminal_node(state)){
             //call the heuristic to set the utility of the state then return it
@@ -15,10 +15,10 @@ public class MiniMax {
         State minimum=new State(state.grid);
         minimum.setUtility(Integer.MAX_VALUE);
 
-       g.put_children(state,player);
-       //loop over the children of the state to update the value of minimum state
+        g.put_children(state,player);
+        //loop over the children of the state to update the value of minimum state
         for(State child : state.children){
-            state=maximize(child,K-1,'2');
+            state=maximize_with_pruning(child,K-1,'2' , a , b);
 
             if(state.getUtility()<minimum.getUtility()) {
                 minimum.setUtility(state.getUtility());
@@ -26,11 +26,19 @@ public class MiniMax {
 
             }
         }
-        //return the state with the minimum value found
+        // alpha pruning
+        if (minimum.getUtility() <=a){
+            return minimum;
+        }
+        b = (b < minimum.getUtility()) ? b : minimum.getUtility();
+
         return minimum;
     }
-    //min function takes a state ,K and a player turn
-    public State maximize(State state,int K,char player){
+
+
+
+
+    public State maximize_with_pruning(State state, int K, char player , double a , double b){
         //to check if K is 0 or if we reached a terminal node
         if(K==0 || g.is_terminal_node(state)){
             //call the heuristic to set the utility of the state then return it
@@ -41,10 +49,10 @@ public class MiniMax {
         State maximum=new State(state.grid);
         maximum.setUtility(Integer.MIN_VALUE);
 
-       g.put_children(state,player);
+        g.put_children(state,player);
         //loop over the children of the state to update the value of maximum state
         for(State child : state.children){
-            state=minimize(child,K-1,'1');
+            state=minimize_with_pruning(child,K-1,'1' , a , b);
 
             if(state.getUtility()>maximum.getUtility()) {
                 maximum.setUtility(state.getUtility());
@@ -52,7 +60,12 @@ public class MiniMax {
 
             }
         }
-        //return the state with the maximum value found
+        // Beta pruning
+        if (maximum.getUtility() >= b){
+            return maximum;
+        }
+        a = (a > maximum.getUtility()) ? a : maximum.getUtility();
+
         return maximum;
     }
 }
