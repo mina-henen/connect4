@@ -90,11 +90,12 @@ public class Controller {
 
             final int column = x;
             rect.setOnMouseClicked(e -> {placeDisc(new Disc(redMove), column);
+
+            if (gameOver()) {
                 Grid g = new Grid();
+
                 int p1Score = g.countScore(logicGrid, '1');
                 int p2Score = g.countScore(logicGrid, '2');
-            if (gameOver()) {
-
                 System.out.println("Game is Over");
                 String winner;
                 if (p1Score > p2Score) {
@@ -108,11 +109,8 @@ public class Controller {
                 errorAlert.setHeaderText("Game has ended");
                 errorAlert.setContentText(winner + "\nHuman Score is " + p1Score + " & Agent Score is " + p2Score);
                 errorAlert.showAndWait();
-            }else {
-                System.out.println("Human Score is : " + p1Score);
-                System.out.println("Agent Score is : " + p2Score);
-                System.out.println("======================================================");
             }
+
             });
 
             list.add(rect);
@@ -169,6 +167,12 @@ public class Controller {
 //                }
             }
         });
+        Grid g = new Grid();
+        int p1Score = g.countScore(logicGrid, '1');
+        int p2Score = g.countScore(logicGrid, '2');
+        System.out.println("Human Score is : " + p1Score);
+        System.out.println("Agent Score is : " + p2Score);
+        System.out.println("======================================================");
         animation.play();
     }
 
