@@ -4,7 +4,7 @@ public class MiniMaxWithPruning {
     Grid g=new Grid();
     Heuristic h=new Heuristic();
 
-    public State minimize_with_pruning(State state,int K,char player , double alpha , double beta){
+    public State minimize_with_pruning(State state, int K, char player , double a , double b){
         //to check if K is 0 or if we reached a terminal node
         if(K==0 || g.is_terminal_node(state)){
             //call the heuristic to set the utility of the state then return it
@@ -18,7 +18,7 @@ public class MiniMaxWithPruning {
         g.put_children(state,player);
         //loop over the children of the state to update the value of minimum state
         for(State child : state.children){
-            state=maximize_with_pruning(child,K-1,'2' , alpha , beta);
+            state=maximize_with_pruning(child,K-1,'2' , a , b);
 
             if(state.getUtility()<minimum.getUtility()) {
                 minimum.setUtility(state.getUtility());
@@ -27,10 +27,10 @@ public class MiniMaxWithPruning {
             }
         }
         // alpha pruning
-        if (minimum.getUtility() <=alpha){
+        if (minimum.getUtility() <=a){
             return minimum;
         }
-        beta = (beta < minimum.getUtility()) ? beta : minimum.getUtility();
+        b = (b < minimum.getUtility()) ? b : minimum.getUtility();
 
         return minimum;
     }
@@ -38,7 +38,7 @@ public class MiniMaxWithPruning {
 
 
 
-    public State maximize_with_pruning(State state,int K,char player , double alpha , double beta){
+    public State maximize_with_pruning(State state, int K, char player , double a , double b){
         //to check if K is 0 or if we reached a terminal node
         if(K==0 || g.is_terminal_node(state)){
             //call the heuristic to set the utility of the state then return it
@@ -52,7 +52,7 @@ public class MiniMaxWithPruning {
         g.put_children(state,player);
         //loop over the children of the state to update the value of maximum state
         for(State child : state.children){
-            state=minimize_with_pruning(child,K-1,'1' , alpha , beta);
+            state=minimize_with_pruning(child,K-1,'1' , a , b);
 
             if(state.getUtility()>maximum.getUtility()) {
                 maximum.setUtility(state.getUtility());
@@ -61,10 +61,10 @@ public class MiniMaxWithPruning {
             }
         }
         // Beta pruning
-        if (maximum.getUtility() >= beta){
+        if (maximum.getUtility() >= b){
             return maximum;
         }
-        alpha = (alpha > maximum.getUtility()) ? alpha : maximum.getUtility();
+        a = (a > maximum.getUtility()) ? a : maximum.getUtility();
 
         return maximum;
     }

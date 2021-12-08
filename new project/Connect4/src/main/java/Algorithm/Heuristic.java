@@ -148,9 +148,6 @@ public class Heuristic {
     }
     //heuristic function to calculate score
     public  int heuristic(char[][] grid){
-        double h2=calcHeuristic(grid,'2');
-        double h1=calcHeuristic(grid,'1')*1.5;
-        //System.out.println("h2= "+h2+" h1= "+h1);
-        return (int) (h2-h1);
+        return calcHeuristic(grid,'2')- calcHeuristic(grid,'1');
     }
 }

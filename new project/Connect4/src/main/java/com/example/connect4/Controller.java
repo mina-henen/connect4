@@ -15,10 +15,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,31 +24,31 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Controller extends Application {
+public class Controller {
     private static final int TILE_SIZE = 80;
     private static final int COLUMNS = 7;
     private static final int ROWS = 6;
-
+    public int k;
+    public boolean withPruning;
     private boolean redMove = true;
     private Disc[][] grid = new Disc[COLUMNS][ROWS];
     private char[][] logicGrid = new char[ROWS][COLUMNS] ;
 
     private Pane discRoot = new Pane();
 
-    private Parent createContent() {
+    Parent createContent() {
         Pane root = new Pane();
         root.getChildren().add(discRoot);
         for (char[] row : logicGrid)
             Arrays.fill(row, '0');
-        for (int i=0;i<ROWS;++i){
-            for (int j=0;j<COLUMNS;++j)
-                System.out.print(logicGrid[i][j]+" ");
-            System.out.println();
-        }
+//        for (int i=0;i<ROWS;++i){
+//            for (int j=0;j<COLUMNS;++j)
+//                System.out.print(logicGrid[i][j]+" ");
+//            System.out.println();
+//        }
         Shape gridShape = makeGrid();
         root.getChildren().add(gridShape);
         root.getChildren().addAll(makeColumns());
-
         return root;
     }
 
@@ -132,26 +130,27 @@ public class Controller extends Application {
                 gameOver();
             }
             redMove = !redMove;
+            for (int i=0;i<6;++i){
+                    for (int j=0;j<7;++j)
+                        System.out.print(logicGrid[i][j]+" ");
+                    System.out.println();
+                }
+                System.out.println();
             if (!redMove) {
-//                for (int i=0;i<6;++i){
-//                    for (int j=0;j<7;++j)
-//                        System.out.print(logicGrid[i][j]+" ");
-//                    System.out.println();
-//                }
-//                System.out.println();
                 State state=new State(logicGrid);
                 Grid g = new Grid();
                 MiniMax m =new MiniMax();
-                State temp=m.maximize(state,5,'2');
+                State temp=m.maximize(state,k,'2');
                 int col=temp.col;
                 g.play(logicGrid,col,'2');
-                placeDisc(new Disc(false), col);
+                System.out.println("here");
+                this.placeDisc(new Disc(false), col);
                 System.out.println();
-//                for (int i=0;i<6;++i){
-//                    for (int j=0;j<7;++j)
-//                        System.out.print(logicGrid[i][j]+" ");
-//                    System.out.println();
-//                }
+                for (int i=0;i<6;++i){
+                    for (int j=0;j<7;++j)
+                        System.out.print(logicGrid[i][j]+" ");
+                    System.out.println();
+                }
             }
         });
         animation.play();
@@ -224,15 +223,15 @@ public class Controller extends Application {
         }
     }
 
-    @Override
-    public void start(Stage stage) throws Exception {
-        stage.setScene(new Scene(createContent()));
-        stage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
+//    @Override
+//    public void start(Stage stage) throws Exception {
+//        stage.setScene(new Scene(createContent()));
+//        stage.show();
+//    }
+//
+//    public static void main(String[] args) {
+//        launch(args);
+//    }
 //    @Override
 //    public void start(Stage stage) throws IOException {
 //        FXMLLoader fxmlLoader = new FXMLLoader(Controller.class.getResource("view.fxml"));

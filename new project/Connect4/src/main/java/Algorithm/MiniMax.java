@@ -1,9 +1,5 @@
 package Algorithm;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Random;
-
 public class MiniMax {
     Grid g=new Grid();
     Heuristic h=new Heuristic();

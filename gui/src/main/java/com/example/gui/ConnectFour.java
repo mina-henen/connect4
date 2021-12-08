@@ -34,6 +34,24 @@ public class ConnectFour extends Application {
 
     private Pane discRoot = new Pane();
 
+
+    private Parent createMainMenu() {
+        Pane root = new Pane();
+        root.getChildren().add(discRoot);
+        for (char[] row : logicGrid)
+            Arrays.fill(row, '0');
+        for (int i=0;i<ROWS;++i){
+            for (int j=0;j<COLUMNS;++j)
+                System.out.print(logicGrid[i][j]+" ");
+            System.out.println();
+        }
+        Shape gridShape = makeGrid();
+        root.getChildren().add(gridShape);
+        root.getChildren().addAll(makeColumns());
+
+        return root;
+    }
+
     private Parent createContent() {
         Pane root = new Pane();
         root.getChildren().add(discRoot);
