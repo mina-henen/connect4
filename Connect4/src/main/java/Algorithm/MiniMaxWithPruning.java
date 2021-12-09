@@ -22,14 +22,18 @@ public class MiniMaxWithPruning {
 
             if(child.getUtility()<minimum.getUtility()) {
                 minimum.setState(child);
+                beta = minimum.getUtility();//
             }
+            if (beta <= alpha){//
+                break;//
+            }//
         }
-        // alpha pruning
+       /* // alpha pruning
         if (minimum.getUtility() <=alpha){
             return minimum;
         }
         beta = (beta < minimum.getUtility()) ? beta : minimum.getUtility();
-
+*/
         return minimum;
     }
 
@@ -55,14 +59,18 @@ public class MiniMaxWithPruning {
 
             if(child.getUtility()>maximum.getUtility()) {
                 maximum.setState(child);
+                alpha = maximum.getUtility();//
             }
+            if (beta <= alpha){//
+                break;//
+            }//
         }
-        // Beta pruning
+     /*   // Beta pruning
         if (maximum.getUtility() >= beta){
             return maximum;
         }
         alpha = (alpha > maximum.getUtility()) ? alpha : maximum.getUtility();
-
+*/
         return maximum;
     }
 }

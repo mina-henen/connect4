@@ -48,11 +48,11 @@ public class State {
     private void print(StringBuilder buffer, String prefix, String childrenPrefix,int level) {
         buffer.append(prefix);
         if(level%2==1) {
-            buffer.append("Level: " + level + " Player: Agent  Value : " + this.utility);
+            buffer.append("Level: " + level + " turn: Agent  Value : " + this.utility);
             buffer.append('\n');
         }
         else{
-            buffer.append("Level: " + level + " Player: Player  Value : " + this.utility);
+            buffer.append("Level: " + level + " turn: Player  Value : " + this.utility);
             buffer.append('\n');
         }
         for (Iterator<State> it = children.iterator(); it.hasNext();) {

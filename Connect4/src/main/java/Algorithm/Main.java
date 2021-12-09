@@ -36,8 +36,8 @@ public class Main {
             else{
                 System.out.println("AI Turn : ");
                 State state=new State(grid);
-                state.setState(mp.maximize_with_pruning(state,K,AI , Double.MIN_VALUE , Double.MAX_VALUE  ));
-                //state.setState(m.maximize(state,K,AI));
+                //state.setState(mp.maximize_with_pruning(state,K,AI , Double.MIN_VALUE , Double.MAX_VALUE  ));
+                state.setState(m.maximize(state,K,AI));
                 state.printTree();
                 int col=state.getCol();
                 g.play(grid,col,AI);
