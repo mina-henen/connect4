@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class MiniMax {
     Grid g=new Grid();
-    int nodes=0;
+    public int nodes=0;
     Heuristic h=new Heuristic();
     //min function takes a state ,K and a player turn
     public State minimize(State state,int K,char player){

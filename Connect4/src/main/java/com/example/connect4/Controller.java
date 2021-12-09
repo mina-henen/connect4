@@ -145,10 +145,15 @@ public class Controller {
                 if (!withPruning) {
                     MiniMax m =new MiniMax();
                     state.setState(m.maximize(state,k,'2'));
+                    System.out.println("Nodes expanded "+m.nodes);
+                    m.nodes=0;
                 } else {
                     MiniMaxWithPruning m =new MiniMaxWithPruning();
                     state.setState(m.maximize_with_pruning(state,k,'2', Integer.MIN_VALUE, Integer.MAX_VALUE));
+                    System.out.println("Nodes expanded "+m.nodes);
+                    m.nodes = 0;
                 }
+
                 state.printTree();
                 int col=state.getCol();
                 g.play(logicGrid,col,'2');

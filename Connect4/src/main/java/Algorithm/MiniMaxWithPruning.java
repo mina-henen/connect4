@@ -2,7 +2,7 @@ package Algorithm;
 
 public class MiniMaxWithPruning {
     Grid g=new Grid();
-    int nodes=0;
+    public int nodes=0;
     Heuristic h=new Heuristic();
 
     public State minimize_with_pruning(State state,int K,char player , double alpha , double beta){
