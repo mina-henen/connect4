@@ -57,6 +57,7 @@ public class State {
         }
         for (Iterator<State> it = children.iterator(); it.hasNext();) {
             State next = it.next();
+
             if (it.hasNext()) {
                 next.print(buffer, childrenPrefix + "├── ", childrenPrefix + "│   ",level+1);
             } else {
