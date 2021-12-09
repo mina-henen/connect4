@@ -6,9 +6,11 @@ import java.util.Random;
 
 public class MiniMax {
     Grid g=new Grid();
+    int nodes=0;
     Heuristic h=new Heuristic();
     //min function takes a state ,K and a player turn
     public State minimize(State state,int K,char player){
+        nodes++;
         //to check if K is 0 or if we reached a terminal node
         if(K==0 || g.is_terminal_node(state)){
             //call the heuristic to set the utility of the state then return it
@@ -33,6 +35,7 @@ public class MiniMax {
     }
     //min function takes a state ,K and a player turn
     public State maximize(State state,int K,char player){
+        nodes++;
         //to check if K is 0 or if we reached a terminal node
         if(K==0 || g.is_terminal_node(state)){
             //call the heuristic to set the utility of the state then return it

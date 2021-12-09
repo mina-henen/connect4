@@ -2,9 +2,11 @@ package Algorithm;
 
 public class MiniMaxWithPruning {
     Grid g=new Grid();
+    int nodes=0;
     Heuristic h=new Heuristic();
 
     public State minimize_with_pruning(State state,int K,char player , double alpha , double beta){
+        nodes++;
         //to check if K is 0 or if we reached a terminal node
         if(K==0 || g.is_terminal_node(state)){
             //call the heuristic to set the utility of the state then return it
@@ -41,6 +43,7 @@ public class MiniMaxWithPruning {
 
 
     public State maximize_with_pruning(State state,int K,char player , double alpha , double beta){
+        nodes++;
         //to check if K is 0 or if we reached a terminal node
         if(K==0 || g.is_terminal_node(state)){
             //call the heuristic to set the utility of the state then return it
