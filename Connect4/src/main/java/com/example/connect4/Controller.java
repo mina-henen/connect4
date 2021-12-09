@@ -4,14 +4,8 @@ import Algorithm.*;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -33,6 +27,7 @@ public class Controller {
     private boolean redMove = true;
     private Disc[][] grid = new Disc[COLUMNS][ROWS];
     private char[][] logicGrid = new char[ROWS][COLUMNS] ;
+    Grid g = new Grid();
 
     private Pane discRoot = new Pane();
 
@@ -92,15 +87,17 @@ public class Controller {
             rect.setOnMouseClicked(e -> {placeDisc(new Disc(redMove), column);
 
             if (gameOver()) {
-                Grid g = new Grid();
-
+                g = new Grid();
                 int p1Score = g.countScore(logicGrid, '1');
                 int p2Score = g.countScore(logicGrid, '2');
                 System.out.println("Game is Over");
                 String winner;
                 if (p1Score > p2Score) {
                     winner = "The winner is Human";
-                } else {
+                } else if (p1Score == p2Score) {
+                    winner = "The Game is draw";
+                }
+                else {
                     winner = "The winner is Agent";
                 }
                 System.out.println("Human Score is : " + p1Score);
@@ -138,7 +135,6 @@ public class Controller {
         discRoot.getChildren().add(disc);
         disc.setTranslateX(column * (TILE_SIZE + 5) + TILE_SIZE / 4);
 
-        final int currentRow = row;
 
         TranslateTransition animation = new TranslateTransition(Duration.seconds(0.5), disc);
         animation.setToY(row * (TILE_SIZE + 5) + TILE_SIZE / 4);
@@ -146,25 +142,17 @@ public class Controller {
             redMove = !redMove;
             if (!redMove) {
                 State state=new State(logicGrid);
-                Grid g = new Grid();
-                State temp;
-                if (withPruning) {
+                if (!withPruning) {
                     MiniMax m =new MiniMax();
-                    temp=m.maximize(state,k,'2');
+                    state.setState(m.maximize(state,k,'2'));
                 } else {
                     MiniMaxWithPruning m =new MiniMaxWithPruning();
-                    temp=m.maximize_with_pruning(state,k,'2', Integer.MIN_VALUE, Integer.MAX_VALUE);
-
+                    state.setState(m.maximize_with_pruning(state,k,'2', Integer.MIN_VALUE, Integer.MAX_VALUE));
                 }
-                int col=temp.getCol();
+                state.printTree();
+                int col=state.getCol();
                 g.play(logicGrid,col,'2');
                 this.placeDisc(new Disc(false), col);
-//                System.out.println();
-//                for (int i=0;i<6;++i){
-//                    for (int j=0;j<7;++j)
-//                        System.out.print(logicGrid[i][j]+" ");
-//                    System.out.println();
-//                }
             }
         });
         Grid g = new Grid();

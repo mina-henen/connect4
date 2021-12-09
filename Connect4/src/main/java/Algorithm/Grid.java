@@ -10,7 +10,7 @@ public class Grid {
     public void play(char[][] grid,int col,char player){
         int row=get_next_open_row(grid,col);
         put_piece(grid,row,col,player);
-        printGame(grid);
+//        printGame(grid);
     }
     //function to print the game
     public void printGame(char[][] grid){
