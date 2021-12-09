@@ -3,6 +3,7 @@ package Algorithm;
 import java.util.Scanner;
 
 public class Main {
+    static double count ;
     static int p1Score=0;
     static int p2Score=0;
     private static void print_score(){
@@ -36,8 +37,11 @@ public class Main {
             else{
                 System.out.println("AI Turn : ");
                 State state=new State(grid);
+               // long start = System.currentTimeMillis();
                 //state.setState(mp.maximize_with_pruning(state,K,AI , Double.MIN_VALUE , Double.MAX_VALUE  ));
                 state.setState(m.maximize(state,K,AI));
+               // long end = System.currentTimeMillis();
+                // count += (end - start);
                 state.printTree();
                 int col=state.getCol();
                 g.play(grid,col,AI);
@@ -52,5 +56,6 @@ public class Main {
         else
             System.out.println("AI Wins");
         System.out.println("GAAAAMEEE OVVEEEEEER");
+       // System.out.println(count);
     }
 }
