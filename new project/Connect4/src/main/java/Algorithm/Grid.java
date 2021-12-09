@@ -10,7 +10,7 @@ public class Grid {
     public void play(char[][] grid,int col,char player){
         int row=get_next_open_row(grid,col);
         put_piece(grid,row,col,player);
-//        printGame(grid);
+        printGame(grid);
     }
     //function to print the game
     public void printGame(char[][] grid){
@@ -41,29 +41,20 @@ public class Grid {
 
         for(int i=0;i<valid_locations.size();i++){
             //put piece in a temp state and add it to the children array
-            //State temp=new State(copy(state.grid));
             State temp=new State(copy(state.grid));
             int col=valid_locations.get(i);
             int row=get_next_open_row(temp.grid,col);
             put_piece(temp.grid,row,col,player);
             state.addChild(temp);
             //check the parent if the root of the tree it will set the col
-            if(state.col==-1) {
+            if(state.getCol()==-1) {
                 temp.setCol(col);
             }
             //if not it will just get the same col as the parent
             else{
-                temp.setCol(state.col);
+                temp.setCol(state.getCol());
             }
         }
-      /*  for (int i=0 ; i<temp.grid.length ; i++){
-            for (int j=0 ; j< temp.grid[0].length ; j++){
-                System.out.print(temp.grid[i][j]);
-            }
-            System.out.print("\n");
-        }
-        System.out.println("**************");*/
-
     }
     //put piece in the right position by using row and col and player turn
     private void put_piece(char[][] grid,int row,int col,char player){
@@ -184,7 +175,7 @@ public class Grid {
         return score;
     }
     //function to copy grid
-    private char[][] copy(char[][] grid){
+    public char[][] copy(char[][] grid){
         char[][] g = new char[grid.length][grid[0].length];
         for (int i=0;i<ROWS;++i) {
             for (int j =0; j<COLUMNS;++j)

@@ -21,13 +21,11 @@ public class MiniMax {
 
        g.put_children(state,player);
        //loop over the children of the state to update the value of minimum state
-        for(State child : state.children){
-            state=maximize(child,K-1,'2');
+        for(State child : state.getChildren()){
+            child.setUtility(maximize(child,K-1,'2').getUtility());
 
-            if(state.getUtility()<minimum.getUtility()) {
-                minimum.setUtility(state.getUtility());
-                minimum.setCol(state.col);
-
+            if(child.getUtility()<minimum.getUtility()) {
+                minimum.setState(child);
             }
         }
         //return the state with the minimum value found
@@ -47,16 +45,15 @@ public class MiniMax {
 
        g.put_children(state,player);
         //loop over the children of the state to update the value of maximum state
-        for(State child : state.children){
-            state=minimize(child,K-1,'1');
+        for(State child : state.getChildren()){
+            child.setUtility(minimize(child,K-1,'1').getUtility());
 
-            if(state.getUtility()>maximum.getUtility()) {
-                maximum.setUtility(state.getUtility());
-                maximum.setCol(state.col);
-
+            if(child.getUtility()>maximum.getUtility()) {
+                maximum.setState(child);
             }
         }
         //return the state with the maximum value found
+        //g.printGame(maximum.getChildren().get(5).grid);
         return maximum;
     }
 }

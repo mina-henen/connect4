@@ -17,13 +17,11 @@ public class MiniMaxWithPruning {
 
         g.put_children(state,player);
         //loop over the children of the state to update the value of minimum state
-        for(State child : state.children){
-            state=maximize_with_pruning(child,K-1,'2' , alpha , beta);
+        for(State child : state.getChildren()){
+            child.setUtility(maximize_with_pruning(child,K-1,'2',alpha,beta).getUtility());
 
-            if(state.getUtility()<minimum.getUtility()) {
-                minimum.setUtility(state.getUtility());
-                minimum.setCol(state.col);
-
+            if(child.getUtility()<minimum.getUtility()) {
+                minimum.setState(child);
             }
         }
         // alpha pruning
@@ -51,13 +49,12 @@ public class MiniMaxWithPruning {
 
         g.put_children(state,player);
         //loop over the children of the state to update the value of maximum state
-        for(State child : state.children){
-            state=minimize_with_pruning(child,K-1,'1' , alpha , beta);
+        for(State child : state.getChildren()){
 
-            if(state.getUtility()>maximum.getUtility()) {
-                maximum.setUtility(state.getUtility());
-                maximum.setCol(state.col);
+            child.setUtility(minimize_with_pruning(child,K-1,'1',alpha,beta).getUtility());
 
+            if(child.getUtility()>maximum.getUtility()) {
+                maximum.setState(child);
             }
         }
         // Beta pruning

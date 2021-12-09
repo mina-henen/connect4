@@ -14,7 +14,8 @@ public class Main {
         char Player='1';
         char AI='2';
 
-        MiniMaxWithPruning m = new MiniMaxWithPruning();
+        MiniMaxWithPruning mp = new MiniMaxWithPruning();
+        MiniMax m = new MiniMax();
         Grid g=new Grid();
         g.initializeGrid(grid);
 
@@ -35,8 +36,10 @@ public class Main {
             else{
                 System.out.println("AI Turn : ");
                 State state=new State(grid);
-                State temp=m.maximize_with_pruning(state,K,AI , Double.MIN_VALUE , Double.MAX_VALUE );
-                int col=temp.col;
+                //state.setState(mp.maximize_with_pruning(state,K,AI , Double.MIN_VALUE , Double.MAX_VALUE  ));
+                state.setState(m.maximize(state,K,AI));
+                state.printTree();
+                int col=state.getCol();
                 g.play(grid,col,AI);
                 p2Score=g.countScore(grid,AI);
             }

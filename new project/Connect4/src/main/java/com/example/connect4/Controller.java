@@ -158,7 +158,7 @@ public class Controller {
                     temp=m.maximize_with_pruning(state,k,'2', Integer.MIN_VALUE, Integer.MAX_VALUE);
 
                 }
-                int col=temp.col;
+                int col=temp.getCol();
                 g.play(logicGrid,col,'2');
                 this.placeDisc(new Disc(false), col);
 //                System.out.println();
